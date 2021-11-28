@@ -86,6 +86,11 @@ void execute(char * input, int * exitstatus) {
 		return;
 	}
 
+   if (strcmp(args[0], "cd") == 0) {
+      chdir(args[1]);
+      return;
+   }
+
    int pid = fork();
 
    //parent process
