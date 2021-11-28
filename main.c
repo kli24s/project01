@@ -15,23 +15,24 @@ int main() {
 	//make it so execute changes *exit to 0 or false when a command is exit
 
 	while (exit) {
-		printf("$: ");
+		//command prompt with path
+		char path[1000];
+		printf("%s $: ", getcwd(path, 1000));
 
-    //gets inputted (set of) command (s)
-    char input[1000];
-    fgets(input, sizeof(input)-1, stdin);
-    //adds the null at the end of a string to close it off
-    input[strlen(input)-1] = '\0';
+		//gets input and closes it off
+		char input[1000];
+		fgets(input, sizeof(input)-1, stdin);
+		input[strlen(input)-1] = '\0';
 
-    int numInputs = counter(input, ';');
-    //printf("numInputs: %d\n", numInputs);
-		
+		int numInputs = counter(input, ';');
+		//printf("numInputs: %d\n", numInputs);
+
 		if(numInputs <= 1) {
 			if (numInputs == 1) execute(input, &exit);
 		} else {
 			separate(input, &exit);
 		}
-    
+
 	}
-   return 0;
+	return 0;
 }

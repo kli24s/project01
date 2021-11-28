@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <dirent.h>
+#include <sys/wait.h>
 
 #include "read.h"
 
@@ -82,11 +83,38 @@ void execute(char * input, int * exitstatus) {
 		return;
 	}
 
-	//normal executing without anything else
-	execvp(args[0], args);
+   int pid = fork();
+
+   //parent process
+   if (pid) {
+      //stops parent from running until any child has exited
+      int status;
+      wait(&status);
+
+      return;
+
+   }
+   //child process
+   else {
+      //normal executing
+   	execvp(args[0], args);
+   }
 }
 
 //==================================================================
 void separate(char * input, int * exitstatus) {
+   int count = counter(input, ';');
+   char ** commands = calloc(count, sizeof(char *));
 
+   int i;
+   for(i = 0; input; i++) {
+      commands[i] = strsep(&input, ";");
+   }
+
+   for(i = 0; i < count; i++) {
+      if (*exitstatus == 0) return;
+      execute(commands[i], exitstatus);
+   }
+
+   free(commands);
 }
