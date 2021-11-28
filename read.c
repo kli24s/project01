@@ -9,7 +9,8 @@
 #include <dirent.h>
 #include <sys/wait.h>
 
-#include "read.h"
+#include "redirection.h"
+#include "pipes.h"
 
 //==================================================================
 /*
@@ -80,6 +81,8 @@ Takes in input (one command) and executes it, also signals to while loop in main
 */
 void execute(char * input, int * exitstatus) {
 	char ** args = parse_command(input);
+   int numInputs = counter(input, ';');
+
 	//breaks while loop in main when exit
 	if (strcmp(args[0], "exit") == 0) {
 		*exitstatus = 0;
@@ -99,10 +102,9 @@ void execute(char * input, int * exitstatus) {
       int status;
       wait(&status);
 
+      free(args);
       return;
-
-   }
-   //child process
+   } //child process
    else {
       //normal executing
    	execvp(args[0], args);

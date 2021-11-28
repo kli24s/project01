@@ -13,7 +13,7 @@
 int main() {
 	int exit = 1;
 	//make it so execute changes *exit to 0 or false when a command is exit
-
+	printf("STARTING PROJECT01 SHELL...(by Grace Chen and Kyle Li Period 4)\n");
 	while (exit) {
 		//command prompt with path
 		char path[1000];
