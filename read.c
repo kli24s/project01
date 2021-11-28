@@ -75,6 +75,9 @@ char ** parse_command(char * line) {
 }
 
 //==================================================================
+/*
+Takes in input (one command) and executes it, also signals to while loop in main to exit or not
+*/
 void execute(char * input, int * exitstatus) {
 	char ** args = parse_command(input);
 	//breaks while loop in main when exit
@@ -102,6 +105,12 @@ void execute(char * input, int * exitstatus) {
 }
 
 //==================================================================
+/*
+Takes in input (if it has semicolons) and calls execute on each separate command
+THERE MUST BE NO SPACE BEFORE AND AFTER SEMICOLONS
+ex. works: " ls;ls -a"
+    doesn't work: "ls; ls" or "ls ; ls"
+*/
 void separate(char * input, int * exitstatus) {
    int count = counter(input, ';');
    char ** commands = calloc(count, sizeof(char *));
