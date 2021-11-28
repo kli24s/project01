@@ -1,12 +1,21 @@
-all: project01.o
-	gcc -o project01m project01.o
+all: main.o read.o pipes.o redirection.o
+	gcc -o project01 main.o read.o pipes.o redirection.o
 
-project01.o: project01.c
-	gcc -c project01.c
+main.o: main.c read.h
+	gcc -c main.c
+
+read.o: read.c read.h pipes.h redirection.h
+	gcc -c read.c
+
+pipes.o: pipes.c pipes.h
+	gcc -c pipes.c
+
+redirect.o: redirect.c redirect.h
+	gcc -c redirect.c 
 
 run:
-	./project01m
+	./project01
 
 clean:
 	rm *.o
-	rm project01m
+	rm project01
