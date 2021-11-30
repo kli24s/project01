@@ -62,6 +62,7 @@ Takes in a string (supposedly a single command the user entered) and returns an 
 
 char ** parse_command(char * line) {
   int spaces = spaceCounter(line);
+  //printf("spaces: %d\n", spaces);
   //instructions say string has no more than spaces arguments
   char ** ret = calloc(spaces, sizeof(char *));
 
@@ -80,8 +81,9 @@ char ** parse_command(char * line) {
 Takes in input (one command) and executes it, also signals to while loop in main to exit or not
 */
 void execute(char * input, int * exitstatus) {
+   int numInputs = spaceCounter(input);
 	char ** args = parse_command(input);
-   int numInputs = counter(input, ';');
+   //rintf("numInputs: %d\n", numInputs);
 
 	//breaks while loop in main when exit
 	if (strcmp(args[0], "exit") == 0) {
@@ -102,12 +104,31 @@ void execute(char * input, int * exitstatus) {
       int status;
       wait(&status);
 
+      remove("tempfile.txt");
+
       free(args);
       return;
    } //child process
    else {
+      int specialcase = 0;
+      int i;
+      for(i = 0; args[i]; i++) {
+         if (strchr(args[i], '>')) {
+            redirect_stdout_to(args, numInputs);
+            specialcase = 1;
+         }
+         if (strchr(args[i], '<')) {
+            redirect_stdin_from(args, numInputs);
+            specialcase = 1;
+         }
+         if (strchr(args[i], '|')) {
+            piping(args, numInputs);
+            specialcase = 1;
+         }
+      }
+
       //normal executing
-   	execvp(args[0], args);
+      if (specialcase == 0) execvp(args[0], args);
    }
 }
 
