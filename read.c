@@ -20,7 +20,6 @@ Takes in a string, counts the number of spaces it has, returns that number
 */
 
 int spaceCounter(char * str) {
-
   int numSpaces = 0;
 
   int i = 0;
@@ -69,8 +68,6 @@ Takes in a string (supposedly a single command the user entered) and returns an 
 
 char ** parse_command(char * line) {
   int spaces = spaceCounter(line);
-  //printf("spaces: %d\n", spaces);
-  //instructions say string has no more than spaces arguments
   char ** ret = calloc(spaces, sizeof(char *));
 
    //loops through line to set ret[i] to a pointer
@@ -92,7 +89,6 @@ Takes in input (one command) and executes it, also signals to while loop in main
 void execute(char * input, int * exitstatus) {
    int numInputs = spaceCounter(input);
    char ** args = parse_command(input);
-   //printf("numInputs: %d\n", numInputs);
 
    //breaks while loop in main when exit
    if (strcmp(args[0], "exit") == 0) {
@@ -134,7 +130,6 @@ void execute(char * input, int * exitstatus) {
          }
       }
 
-      //normal executing
       if (specialcase == 0) execvp(args[0], args);
    }
 }
