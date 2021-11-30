@@ -1,4 +1,4 @@
-# project01
+# project01 - shell
 Period 4, Chen Grace, Li Kyle
 # Features Implemented #
 - the parsing of a line including the fork and exec 
@@ -7,12 +7,16 @@ Period 4, Chen Grace, Li Kyle
 - simple redirection (SEE NOTES BELOW)
 
 # Unsuccessful Features #
-- wasn't able to implement redirection using multiple > or < in a command
+- not sure if this was needed but wasn't able to implement redirection using multiple > or < in a command
 
 # Bugs and more #
 - multiple commands with ; should be used WITHOUT any spaces to the left or right of ;
 - redirection only works using only one symbol (< or >) in the command
 - piping limited to a single pipe
+- on both sides of a redirection sign (< or >) or a pipe (|), there can atmost be one space. 
+-       ex. "ls -l > test.txt" wouldn't work and "ls -a | wc" wouldn't work. 
+- the limit for how long a path is, the user input, and the information redirected/piped is 1000 characters
+- didn't implement much error testing so there's no error message if the user enters an unrecognized command
 
 # Copy of Function Headers #
 ## main.c ##
@@ -63,3 +67,6 @@ Period 4, Chen Grace, Li Kyle
 
 ## pipes.c ##
 **void piping(char ** args, int numInputs);**
+- Performs piping on two commands in args using popen
+- @parameter args is the parsed arguments (a command) from the user input
+- @parameter numInputs is the number of inputs - 1 since it's based on spaces counted
