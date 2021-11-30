@@ -91,14 +91,14 @@ Takes in input (one command) and executes it, also signals to while loop in main
 */
 void execute(char * input, int * exitstatus) {
    int numInputs = spaceCounter(input);
-	char ** args = parse_command(input);
-   //rintf("numInputs: %d\n", numInputs);
+   char ** args = parse_command(input);
+   //printf("numInputs: %d\n", numInputs);
 
-	//breaks while loop in main when exit
-	if (strcmp(args[0], "exit") == 0) {
-		*exitstatus = 0;
-		return;
-	}
+   //breaks while loop in main when exit
+   if (strcmp(args[0], "exit") == 0) {
+      *exitstatus = 0;
+      return;
+   }
 
    if (strcmp(args[0], "cd") == 0) {
       chdir(args[1]);
@@ -112,8 +112,6 @@ void execute(char * input, int * exitstatus) {
       //stops parent from running until any child has exited
       int status;
       wait(&status);
-
-      remove("tempfile.txt");
 
       free(args);
       return;
