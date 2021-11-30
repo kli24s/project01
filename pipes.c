@@ -10,5 +10,16 @@
 #include <sys/wait.h>
 
 void piping(char ** args, int numInputs) {
-   
+   FILE *in;
+   FILE * out;
+   in = popen(args[0], "r");
+   out = popen(args[numInputs], "w");
+
+   char buff[1000];
+   while(fgets(buff, 1000, in)) {
+      fputs(buff, out);
+   }
+
+   pclose(in);
+   pclose(out);
 }
